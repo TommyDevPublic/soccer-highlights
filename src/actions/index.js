@@ -1,8 +1,19 @@
 import api from '../apis/sportbat';
-import { reduxForm, reset } from 'redux-form';
+
+import {
+    FETCH_VIDEOS
+} from './types';
 
 export const fetchVideos = () => async dispatch => {
-    const response = await api.sportbat.get();
 
-    dispatch({ type: "FETCH_VIDEOS", payload: response.data });
+    const response = await api.get();
+    dispatch({ type: FETCH_VIDEOS, payload: response.data });
 };
+
+export const searchVideos = (formValues, videos) => async dispatch => {
+
+    console.log('formvalues and videos',formValues, videos);
+
+};
+
+

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Field, reduxForm, reset, reducer as forms } from 'redux-form';
+import {connect} from 'react-redux';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
@@ -10,65 +12,72 @@ momentLocalizer();
 
 class VideoSearch extends React.Component {
 
-    state = {
-        searchCritieria: {
-            searchTerm: '',
-            date: new Date(),
-            event: true,
-            title: true
-        }
-
-    };
-
     /**
-     * searchHandler is used to update the input field in the JSX.
-     * After updating the term via setState we then use the callback
-     * that setState allows to then search/filter the videos by term.
-     * This get passed to the onSearchVideos prop passed from App.js
-     *
+     * Searches Videos by filtering
+     * videos array.  This method is passed via props to the VideoSearch Component.
+     * It then gets called from the VideoSearch component when user enter text into field.
      */
-    searchHandler = (evt) => {
-        const value = evt.target.value;
-        const fieldName = evt.target.name;
-
-        this.setState({[fieldName]: value })
-
+    onSearchVideos = (formValues) => {
+        this.props.onSearchVideos(formValues);
     };
 
-    onSearchVideos = () => {
-      this.props.onSearchVideos(this.state.searchCritieria);
+    onClearSearch = () => {
+      this.props.onClearSearch();
+    };
+
+    renderDateTimePicker = ({ input: { onChange, value }}) => {
+        return (
+            <div className="field-date">
+                <DateTimePicker
+                    onChange={onChange}
+                    format="YYYY-MM-DD"
+                    time={false}
+                />
+
+            </div>
+
+        )
     };
 
     render() {
 
+        const { reset } = this.props;
+
+        const resetForm = async () => {
+              reset();
+              this.props.onClearSearch();
+
+        };
         return (
             <div className="video-search border p-4">
-                <h4>Search Videos By:</h4>
-                <div className="form-group">
-                    <input type="checkbox" selected name="title" value={true} /> <label>Title</label>
-                </div>
-                <div className="form-group">
-                    <input type="checkbox" selected name="event" value={true} /> <label>Event</label>
-                </div>
-                <div className="form-group">
-                    <label>Date</label>
-                    <DateTimePicker
-
-                        onChange={value => this.setState({date: value})}
-                        time={false}
-                    />
-
-                </div>
-                <div className="form-group">
-                    <label>
-                        <i class="fas fa-asterisk"></i>
-                        Search Terms/Keywords
-                    </label>
-                    <input className="form-control" type="text" name="terms" onChange={this.searchHandler} value={this.state.searchTerm} />
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-primary" onClick={this.onSearchVideos}>Search Videos</button>
-                </div>
+                <h4 className="mb-4 text-center">Search Videos</h4>
+                <form onSubmit={this.props.handleSubmit(this.onSearchVideos)} className="ui form error">
+                    <div className="form-group checkbox">
+                        <Field name="title" component="input" type="checkbox"/>
+                        <label className="ml-2">Title</label>
+                    </div>
+                    <div className="form-group checkbox">
+                        <Field name="event" component="input"  type="checkbox"/>
+                        <label className="ml-2">Event/Country/City</label>
+                    </div>
+                    <div className="form-group">
+                        <label>Date</label>
+                        <Field component={this.renderDateTimePicker} name="date" />
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            <i className="fas fa-asterisk"></i>
+                            Search Terms/Keywords
+                        </label>
+                        <Field name="terms" component="input" type="text" placeholder="Enter search terms/keywords"/>
+                    </div>
+                    <div className="form-group">
+                        <button type="submit" className="btn btn-primary">Search Videos</button>
+                    </div>
+                    <div className="form-group">
+                        <button type="button" onClick={resetForm} className="btn btn-default">Show All Videos</button>
+                    </div>
+                </form>
             </div>
 
         )
@@ -78,4 +87,7 @@ class VideoSearch extends React.Component {
 
 }
 
-export default VideoSearch;
+export default reduxForm({
+    form: 'video-search'
+})(VideoSearch);
+

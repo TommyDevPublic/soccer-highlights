@@ -15,6 +15,7 @@
 }
 .video-item img {
     width: 100%;
+    max-height: 160px;
 }
 
 .video-item figure {
@@ -26,4 +27,42 @@
     padding: 1rem;
     align-self: flex-end;
 
+}
+
+.video-search .form-group {
+    display: flex;
+    flex-direction: column;
+
+}
+.video-search .form-group.checkbox label {
+    margin-bottom: 0;
+}
+.video-search .form-group.checkbox {
+    flex-direction: row;
+    align-items: center;
+}
+.video-search .form-group:last-child {
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+.video-search .btn-default {
+    display: block;
+    border: 1px solid #dee2e6;
+    width: 100%;
+}
+
+.video-search .btn-default:hover {
+    border-color: #1e90ff;
+    color: #1e90ff;
+
+}
+
+.video-search input[type="text"] {
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: .5rem;
+}
+
+.video-search .rw-datetime-picker.rw-widget input {
+    border: none;
 }
