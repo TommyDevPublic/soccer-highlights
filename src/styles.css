@@ -66,3 +66,34 @@
 .video-search .rw-datetime-picker.rw-widget input {
     border: none;
 }
+
+
+/* Video Player */
+.video-player-wrapper {
+
+    width: 100%;
+}
+
+.video-player {
+    width: 100%;
+}
+
+.video-player-wrapper ul.related-videos-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Modal Overrides */
+.modal {
+    /* background: #000; */
+}
+.modal-body {
+    padding: 0;
+}
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-content {
+    /* background: #444; */
+}

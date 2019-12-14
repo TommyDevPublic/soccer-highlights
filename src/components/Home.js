@@ -1,32 +1,8 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {fetchVideos} from "../actions/index";
 import VideoList from './VideoList';
 import VideoSearch from './VideoSearch';
 
 class App extends React.Component {
-
-    state = {
-        search: null
-    };
-
-    /**
-     * When the react App component mounts
-     * we then call the fetchVideos Action
-     */
-    componentDidMount() {
-        this.props.fetchVideos();
-    }
-
-    onSearchVideos = (formValues) => {
-        const values = {...formValues};
-        this.setState({search: values});
-    };
-
-    onClearSearch = () => {
-        this.setState({search: {}})
-    };
-
 
     render() {
 
@@ -39,10 +15,10 @@ class App extends React.Component {
                 </div>
                 <div className="row">
                     <div className="col-lg-2">
-                        <VideoSearch onClearSearch={this.onClearSearch} onSearchVideos={this.onSearchVideos}/>
+                        <VideoSearch />
                     </div>
                     <div className="col-lg-10">
-                        <VideoList search={{...this.state.search}} videos={[...this.props.videos]}/>
+                        <VideoList />
                     </div>
                 </div>
 
@@ -56,10 +32,5 @@ class App extends React.Component {
 
 };
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        videos: Object.values(state.videos)
-    }
-};
 
-export default connect(mapStateToProps, {fetchVideos})(App)
+export default App;

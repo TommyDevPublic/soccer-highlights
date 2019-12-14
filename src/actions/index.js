@@ -1,7 +1,9 @@
 import api from '../apis/sportbat';
 
 import {
-    FETCH_VIDEOS
+    FETCH_VIDEOS,
+    SEARCH_VIDEOS,
+    CLEAR_SEARCH
 } from './types';
 
 export const fetchVideos = () => async dispatch => {
@@ -10,10 +12,16 @@ export const fetchVideos = () => async dispatch => {
     dispatch({ type: FETCH_VIDEOS, payload: response.data });
 };
 
-export const searchVideos = (formValues, videos) => async dispatch => {
 
-    console.log('formvalues and videos',formValues, videos);
+export const searchVideos = (formValues) => async dispatch => {
+    dispatch({ type: SEARCH_VIDEOS, payload: formValues });
+};
 
+export const clearSearch = () => async dispatch => {
+
+    const searchParams = {title: null, event: null, date: null, terms: null};
+
+    dispatch({ type: CLEAR_SEARCH, payload: searchParams });
 };
 
 

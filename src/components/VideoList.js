@@ -1,80 +1,85 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
+import {fetchVideos, searchVideos} from "../actions/index";
+import slugify from 'slugify';
 
 class VideoList extends React.Component {
 
     state = {
-        videos: [],
         filteredVideos: []
     };
 
-    componentDidUpdate(prevProps,prevState) {
-
-        console.log(this.props.videos);
-        console.log('sdfsdf', prevProps);
-
-        if (prevProps.videos.length <= 0 && this.props.videos.length > 0) {
-            this.setState({videos: this.props.videos, filteredVideos: this.props.videos}, () => {
-                console.log(this.state.videos)
-
-            })
+    /**
+     * When the react App component mounts
+     * we then call the fetchVideos Action
+     */
+    componentDidMount() {
+        if ( _.isEmpty(this.props.videos) ) {
+            this.props.fetchVideos();
         }
-
-        if (!_.isEqual(prevProps.search, this.props.search) ) {
-
-            this.searchVideos();
-
-        }
-
+        this.renderVideos();
 
     }
 
-    searchVideos = async () => {
+    componentDidUpdate(prevProps,prevState) {
+
+        if (prevProps.videos.length <= 0 && this.props.videos.length > 0) {
+            this.setState({videos: this.props.videos, filteredVideos: this.props.videos});
+        }
+
+        if (!_.isEqual(prevProps.searchVideosParams, this.props.searchVideosParams)  ) {
+            this.renderVideos();
+
+        }
+
+    }
 
 
-        if ( _.isEmpty(this.props.search.date) && (_.isEmpty(this.props.search.terms)) ) {
-            console.log('hell there');
-           await this.setState({filteredVideos: this.state.videos});
+    renderVideos = async () => {
+
+        //If search object is empty then return set filteredVideos to all videos
+        if ( _.isEmpty(this.props.searchVideosParams.date) && (_.isEmpty(this.props.searchVideosParams.terms)) ) {
+           await this.setState({filteredVideos: this.props.videos});
            return
         }
 
         let fullText = false;
 
-        if ( !_.isEmpty(this.props.search.terms) && !this.props.search.event && !this.props.search.title ) {
+        //If search terms and the is option to search event and title is not provided we set fulltext search to true
+        if ( !_.isEmpty(this.props.searchVideosParams.terms) && !this.props.searchVideosParams.event && !this.props.searchVideosParams.title ) {
             fullText = true;
         }
 
-        console.log('fullText', fullText);
+        //Split the search terms into an array of search terms
+        const searchTerms = this.props.searchVideosParams.terms ? this.props.searchVideosParams.terms.toLowerCase().split(' ') : [];
 
-        const searchTerms = this.props.search.terms ? this.props.search.terms.toLowerCase().split(' ') : [];
-
-        console.log('search Params', searchTerms);
 
         //const videos = _.filter(this.state.videos, video => video.title.toLowerCase().includes(this.props.search.terms.toLowerCase()));
         const videos = [...this.props.videos];
 
 
+        /* This is where videos are filtered based on search criteria.
+            We use await to make sure fitlereVideos const is set before we set the local state of filteredVideos
+         */
         const filteredVideos = await videos.filter(video => {
             var hasTitle = false,
                 hasDate = false,
                 hasEvent = false;
 
-            console.log('search as title marked',this.props.search.title);
-
-            if ( this.props.search.title || fullText ) {
+            if ( this.props.searchVideosParams.title || fullText ) {
                hasTitle = searchTerms.some(term => video.title.toLowerCase().includes(term));
             }
 
-            if ( this.props.search.event || fullText) {
+            if ( this.props.searchVideosParams.event || fullText) {
                 hasEvent = searchTerms.some(term => video.competition.name.toLowerCase().includes(term));
             }
 
-            if ( this.props.search.date ) {
-                let searchDate = moment(this.props.search.date).format('YYYY-MM-DD');
-                console.log(searchDate);
+            if ( this.props.searchVideosParams.date ) {
+                let searchDate = moment(this.props.searchVideosParams.date).format('YYYY-MM-DD');
                 let videoDate = moment(video.date).format('YYYY-MM-DD');
-                console.log(videoDate);
                 hasDate = _.isEqual(searchDate, videoDate);
             }
 
@@ -85,31 +90,29 @@ class VideoList extends React.Component {
 
         });
 
-        console.log(filteredVideos);
-
-        this.setState({filteredVideos: filteredVideos}, () => {
-            console.log('new videos', videos);
-        });
+        //After we gather out filteredVideos we set the local state
+        this.setState({filteredVideos: filteredVideos});
 
 
     };
 
     render() {
 
-        if ( !this.props.videos.length > 0 ) {
+        if ( _.isEmpty(this.props.videos) ) {
             return 'Loading...'
         }
 
-        console.log('search',this.props.search);
         return (
             <div className="video-list border p-4">
                 {this.state.filteredVideos.map((video, i) => {
                     return (
                         <div className="video-item" key={i}>
-                            <figure>
-                                <img src={video.thumbnail} alt={`${video.title}`}/>
-                            </figure>
-                            <h6 className="title">{video.title}</h6>
+                            <Link to={`/soccer/videos/${ moment(video.date).format('YYYY-MM-DD')}/${video.competition.id}/${slugify(video.videos[0].title, {remove: /[*+~.()'"!:@]/g})}/1`}>
+                                <figure>
+                                    <img src={video.thumbnail} alt={`${video.title}`}/>
+                                </figure>
+                                <h6 className="title">{video.title}</h6>
+                            </Link>
                         </div>
                     )
                 })
@@ -125,5 +128,12 @@ class VideoList extends React.Component {
 
 };
 
-export default VideoList;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        videos: Object.values(state.videos),
+        searchVideosParams: state.searchVideos
+    }
+};
+
+export default connect(mapStateToProps, {fetchVideos, searchVideos})(VideoList)
 

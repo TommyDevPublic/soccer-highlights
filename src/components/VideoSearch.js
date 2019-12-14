@@ -1,7 +1,8 @@
 import React from 'react';
-import { Field, reduxForm, reset, reducer as forms } from 'redux-form';
+import { Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
+import {searchVideos, clearSearch} from "../actions/index";
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import 'react-widgets/dist/css/react-widgets.css';
@@ -18,11 +19,12 @@ class VideoSearch extends React.Component {
      * It then gets called from the VideoSearch component when user enter text into field.
      */
     onSearchVideos = (formValues) => {
-        this.props.onSearchVideos(formValues);
+        this.props.searchVideos(formValues);
     };
 
     onClearSearch = () => {
-      this.props.onClearSearch();
+      console.log('clear search');
+      this.props.clearSearch();
     };
 
     renderDateTimePicker = ({ input: { onChange, value }}) => {
@@ -45,7 +47,7 @@ class VideoSearch extends React.Component {
 
         const resetForm = async () => {
               reset();
-              this.props.onClearSearch();
+              this.onClearSearch();
 
         };
         return (
@@ -87,7 +89,14 @@ class VideoSearch extends React.Component {
 
 }
 
-export default reduxForm({
-    form: 'video-search'
-})(VideoSearch);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        searchVideosParams: state.searchVideos
+    }
+};
 
+
+export default connect(mapStateToProps, {searchVideos, clearSearch})(
+    reduxForm({
+        form: 'video-search'
+    })(VideoSearch));
