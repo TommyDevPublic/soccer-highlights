@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom'
 import Home from './Home';
 import VideoPlayer from './VideoPlayer';
-import moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.js';
 import '../styles.css';
 
 class App extends React.Component {
@@ -12,7 +12,7 @@ class App extends React.Component {
 
         return (
 
-            <Router>
+            <Router >
                 <div>
                     <Route path="/" render={(props) => (
                         <div>

@@ -5,6 +5,8 @@ import {fetchVideos} from "../actions/index";
 import _ from 'lodash';
 import ModalWrapper from './ModalWrapper';
 import ReactHtmlParser from 'react-html-parser';
+import slugify from 'slugify';
+import moment from 'moment';
 
 
 
@@ -12,15 +14,14 @@ class VideoPlayer extends React.Component {
 
 
     state = {
-        videoTitle: ''
-    }
+        videoTitle: '',
+    };
 
     /**
      * When the react App component mounts
      * we then call the fetchVideos Action
      */
     componentDidMount() {
-        console.log('FETCH VIDEOS');
         if (_.isEmpty(this.props.videos)) {
             this.props.fetchVideos();
         }
@@ -29,18 +30,27 @@ class VideoPlayer extends React.Component {
 
         renderContent = () => {
 
-                console.log(this.props.videos)
-                const video = _.find(this.props.videos, (v) => { return v.competition.id === parseInt(this.props.match.params.id)});
+            const relatedVideoId = parseInt(this.props.match.params.relatedId) - 1;
 
-                console.log('VIDEO',video);
+            const video =  _.find(this.props.videos, (v) => { return v.competition.id === parseInt(this.props.match.params.id)});
+
+            const columnClass = () => {
+              if (video.videos.length <= 1) {
+                  return 'col-lg-12'
+              }  else {
+                  return 'col-lg-9'
+              }
+            };
+
+
                 return (
 
 
                     <div className="video-player-wrapper container">
                         <div className="row">
-                            <div className="col-lg-9">
-                                <div className="video-player border">
-                                    { _.isEmpty(video) ? (
+                            <div className={columnClass()}>
+                                <div className="video-player">
+                                    { _.isEmpty(video.videos[relatedVideoId]) ? (
                                         <div>
                                         <p>We're sorry the video you have requested could not be found.</p>
                                             <Link to="/">
@@ -49,33 +59,38 @@ class VideoPlayer extends React.Component {
                                         </div>
                                     ) : (
                                         <div>
-                                            {ReactHtmlParser(video.videos[0].embed)}
+                                            <h5>{video.videos[relatedVideoId].title}</h5>
+                                            {ReactHtmlParser(video.videos[relatedVideoId].embed)}
                                         </div>
                                     )}
 
                                 </div>
                             </div>
-                            <div className="col-lg-3">
-                                <div className="related-videos">
-                                    <h6>More Highlites</h6>
-                                    <ul className="related-videos-list">
-                                    { video.videos.length > 0 ? (
+                            { video.videos.length > 1 ? (
+                                <div className="col-lg-3">
+                                    <div className="related-videos">
+                                        <h6>More Highlites</h6>
+                                        <ul className="related-videos-list">
+                                            {
 
-                                        video.videos.map((vid, i) => {
-                                            return (
-                                                <div key={`related-video-${i}`}>
+                                                video.videos.map((vid, i) => {
+                                                    return (
+                                                        <div key={`related-video-${i}`}>
 
-                                                        <li>
-                                                            <Link to={`/event/${video.competition.id}/video/title/`}>{vid.title}</Link>
-                                                        </li>
+                                                            <li>
+                                                                <Link to={`/soccer/videos/${ moment(video.date).format('YYYY-MM-DD')}/${video.competition.id}/${slugify(vid.title, {remove: /[*+~.()'"!:@]/g})}/${i + 1}`}>{vid.title}</Link>
+                                                            </li>
 
-                                                </div>
-                                            )
-                                        })
-                                    ) : ('')}
-                                    </ul>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
+
+                                ) : ''}
+
                         </div>
 
                     </div>
@@ -92,7 +107,6 @@ class VideoPlayer extends React.Component {
 
                 }
 
-                console.log('VIDEO PLAYER', this.props.videos);
            return (
                <div>
                        <ModalWrapper

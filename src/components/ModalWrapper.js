@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import history from '../history';
 
-class ModalWrapper extends React.Component {
+const ModalWrapper = (props) => {
 
-    closeModal = () => {
+    const closeModal = () => {
+        //history.push('/');
         history.goBack();
     };
 
-    render() {
 
         return ReactDOM.createPortal(
             <div>
@@ -16,24 +16,24 @@ class ModalWrapper extends React.Component {
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">{this.props.title}</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => {this.closeModal()}}><span aria-hidden="true">×</span></button>
+
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => {closeModal()}}><span aria-hidden="true">×</span></button>
                             </div>
                             <div className="modal-body">
-                                {this.props.content}
+                                {props.content}
                             </div>
                             <div className="modal-footer">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="modal-backdrop fade show" onClick={() => {this.closeModal()}}></div>
+                <div className="modal-backdrop fade show" onClick={() => {closeModal()}}></div>
             </div>
             ,
             document.querySelector('#modal')
         )
 
-    }
+
 
 }
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
-import {fetchVideos, searchVideos} from "../actions/index";
+import {fetchVideos, searchVideos, sortVideos} from "../actions/index";
 import slugify from 'slugify';
 
 class VideoList extends React.Component {
@@ -24,26 +24,48 @@ class VideoList extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps,prevState) {
+    componentDidUpdate(prevProps,prevState) {;
 
         if (prevProps.videos.length <= 0 && this.props.videos.length > 0) {
-            this.setState({videos: this.props.videos, filteredVideos: this.props.videos});
+            this.setState({videos: this.props.videos, filteredVideos: this.props.videos}, () => {
+                this.renderVideos();
+            });
         }
 
-        if (!_.isEqual(prevProps.searchVideosParams, this.props.searchVideosParams)  ) {
+        if (!_.isEqual(prevProps.searchVideosParams, this.props.searchVideosParams ) || (!_.isEqual(prevProps.sortVideosBy, this.props.sortVideosBy))  ) {
             this.renderVideos();
 
         }
 
     }
 
+    sortVideos = async (videos, sortVideosBy) => {
+        let sortOrder = 'asc';
+
+        if (!sortVideosBy) {
+            sortVideosBy = 'title';
+        }
+
+        if (sortVideosBy === 'event') {
+            sortVideosBy = 'competition.name';
+        }
+
+        if (sortVideosBy === 'date') {
+            sortOrder = 'desc';
+        }
+
+        const sortedVideos = await  _.orderBy(videos, sortVideosBy, [sortOrder]);
+        return sortedVideos;
+
+    };
 
     renderVideos = async () => {
 
         //If search object is empty then return set filteredVideos to all videos
         if ( _.isEmpty(this.props.searchVideosParams.date) && (_.isEmpty(this.props.searchVideosParams.terms)) ) {
-           await this.setState({filteredVideos: this.props.videos});
-           return
+            const sortedVideos = await this.sortVideos(this.props.videos, this.props.sortVideosBy ? this.props.sortVideosBy : 'title' );
+            this.setState({filteredVideos: sortedVideos});
+            return
         }
 
         let fullText = false;
@@ -90,8 +112,10 @@ class VideoList extends React.Component {
 
         });
 
+
+        const sortedVideos = await this.sortVideos(filteredVideos, this.props.sortVideosBy);
         //After we gather out filteredVideos we set the local state
-        this.setState({filteredVideos: filteredVideos});
+        this.setState({filteredVideos: sortedVideos});
 
 
     };
@@ -111,7 +135,14 @@ class VideoList extends React.Component {
                                 <figure>
                                     <img src={video.thumbnail} alt={`${video.title}`}/>
                                 </figure>
-                                <h6 className="title">{video.title}</h6>
+
+                                <div className="metadata">
+                                    <h6 className="title">{video.title}</h6>
+                                    <div className="metadata-footer">
+                                        <div className="event">{video.competition.name}</div>
+                                        <div className="date">{moment(video.date).format('YYYY-MM-DD')}</div>
+                                    </div>
+                                </div>
                             </Link>
                         </div>
                     )
@@ -131,9 +162,10 @@ class VideoList extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         videos: Object.values(state.videos),
-        searchVideosParams: state.searchVideos
+        searchVideosParams: state.searchVideos,
+        sortVideosBy: state.sortVideos.value
     }
 };
 
-export default connect(mapStateToProps, {fetchVideos, searchVideos})(VideoList)
+export default connect(mapStateToProps, {fetchVideos, searchVideos, sortVideos})(VideoList)
 
