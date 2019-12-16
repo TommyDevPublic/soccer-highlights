@@ -174,7 +174,7 @@ class VideoList extends React.Component {
           </div>
         ) : (
           <p>
-            We\&apos;re sorry. There are no video hightlights for that search.
+            We&apos;re sorry. There are no video hightlights for that search.
             Please try again.
           </p>
         )}

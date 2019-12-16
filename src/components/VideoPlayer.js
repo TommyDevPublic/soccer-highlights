@@ -47,7 +47,7 @@ class VideoPlayer extends React.Component {
               {_.isEmpty(video.videos[relatedVideoId]) ? (
                 <div>
                   <p>
-                    We\&apos;re sorry the video you have requested could not be
+                    We&apos;re sorry the video you have requested could not be
                     found.
                   </p>
                   <Link to="/">
