@@ -1,3 +1,24 @@
+## Installation of source project locally
+
+1. <b>Install npm:</b> Directions can be found here
+https://www.npmjs.com/get-npm
+
+2.  <b>Clone the git repo:</b> <code>git clone https://github.com/TommyDevPublic/soccer-highlights.git</code>
+
+3. <b>Navigate to the root directory of the cloned project (soccer-highlights) and run:</b> <code>npm install</code>. This will intall the project.
+
+4. <b>Run the following:</b> <code>npm start</code> This will fire up the application on localhost:3000
+
+## Testing the build locally
+After you have cloned and installed the project you can test the build process and run it locally.
+1. <b>Run the following:</b> <code>npm run build</code> This will build the project and create a new directior called build.
+
+2. <b>Install serve by running:</b> <code>npm install -g serve</code>
+
+3. <b>Start up the server and build. Run the following:</b> <code>serve -s build</code> This will run the optimized production build on localhost:5000
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -17,6 +38,11 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+### `npm link`
+
+Launches the test runner in the interactive watch mode.<br />
+
+
 ### `npm run build`
 
 Builds the app for production to the `build` folder.<br />
@@ -27,7 +53,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+### `npm run eject` (disabled)
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -37,32 +63,8 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## TO DO'S
+1. Setup  CI
+2. Create 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
