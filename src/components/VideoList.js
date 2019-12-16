@@ -24,7 +24,7 @@ class VideoList extends React.Component {
 
     }
 
-    componentDidUpdate(prevProps,prevState) {;
+    componentDidUpdate(prevProps,prevState) {
 
         if (prevProps.videos.length <= 0 && this.props.videos.length > 0) {
             this.setState({videos: this.props.videos, filteredVideos: this.props.videos}, () => {
@@ -62,7 +62,7 @@ class VideoList extends React.Component {
     renderVideos = async () => {
 
         //If search object is empty then return set filteredVideos to all videos
-        if ( _.isEmpty(this.props.searchVideosParams.date) && (_.isEmpty(this.props.searchVideosParams.terms)) ) {
+        if ( !_.isDate(this.props.searchVideosParams.date) && (_.isEmpty(this.props.searchVideosParams.terms)) ) {
             const sortedVideos = await this.sortVideos(this.props.videos, this.props.sortVideosBy ? this.props.sortVideosBy : 'title' );
             this.setState({filteredVideos: sortedVideos});
             return
@@ -100,6 +100,7 @@ class VideoList extends React.Component {
             }
 
             if ( this.props.searchVideosParams.date ) {
+
                 let searchDate = moment(this.props.searchVideosParams.date).format('YYYY-MM-DD');
                 let videoDate = moment(video.date).format('YYYY-MM-DD');
                 hasDate = _.isEqual(searchDate, videoDate);

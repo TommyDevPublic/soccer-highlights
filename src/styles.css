@@ -1,3 +1,37 @@
+/* global */
+body {
+    background-color: #f1f1f1;
+}
+
+/* HEADER */
+header {
+    height: 60px;
+    background: #000;
+    border-bottom: 4px solid #1e90ff;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+header .logo {
+    background: url(images/neilsenlogo-580x358.png) no-repeat;
+    height:40px;
+    width: 40px;
+    background-size: 100%;
+}
+
+footer {
+    height: 4px;
+    background: #000;
+    border-top: 4px solid #1e90ff;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: .75rem;
+    justify-content: center;
+}
+
 /* VIDEO LIST */
 
 .video-list {
@@ -40,9 +74,17 @@
 
 }
 
+/* SEARCH */
 
+.video-search, .video-list {
+    background: #fff;
+}
 .video-search .form-group {
     flex-direction: column;
+    display: -webkit-flex; /* Safari */
+    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+    display: flex;
+    flex-wrap: wrap;
 
 }
 .video-search .form-group.checkbox label {
@@ -87,6 +129,8 @@
 
 .video-player {
     width: 100%;
+    background: #FFF;
+    padding: 1rem;
 }
 
 .video-player-wrapper ul.related-videos-list {
@@ -94,9 +138,22 @@
     padding: 0;
 }
 
+.video-player-wrapper ul.related-videos-list li {
+    margin-bottom: 5px;
+}
+
+.video-player-wrapper .related-videos {
+    background: #FFF;
+    padding: 1rem;
+}
+
+.video-player-wrapper .related-videos h6 {
+    font-weight: bold;
+}
+
 /* Modal Overrides */
 .modal {
-    /* background: #000; */
+    display: block;
 }
 .modal-body {
     padding: 0;
@@ -106,5 +163,15 @@
 }
 
 .modal-content {
-    /* background: #444; */
+    background: #f1f1f1;
+}
+
+.modal-footer {
+    border-top: 0;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 980px;
+    }
 }

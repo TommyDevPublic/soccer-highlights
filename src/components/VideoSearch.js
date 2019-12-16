@@ -23,7 +23,6 @@ class VideoSearch extends React.Component {
     };
 
     onClearSearch = () => {
-      console.log('clear search');
       this.props.clearSearch();
     };
 
@@ -60,41 +59,44 @@ class VideoSearch extends React.Component {
         ];
 
         return (
-            <div className="video-search border p-4">
+            <div className="video-search border p-4 mb-4">
 
-                <DropdownList data={sortOptions} defaultValue={"title"} valueField="value" textField="name" onChange={value => this.sortVideos(value)}/>
-                <h5 className="mb-4 text-center">
-                    <a href="#search-videos" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="search-videos">Search Videos</a>
-                </h5>
-                <div className="collapse" id="search-videos">
-                    <form onSubmit={this.props.handleSubmit(this.onSearchVideos)} className="ui form error">
-                        <div className="form-group checkbox">
-                            <Field name="title" component="input" type="checkbox"/>
-                            <label className="ml-2">Title</label>
+                        <h5>Sort Videos</h5>
+                        <DropdownList data={sortOptions} defaultValue={"title"} valueField="value" textField="name" onChange={value => this.sortVideos(value)}/>
+
+
+                        <h5 className="mb-4 mt-4">
+                            Search Videos
+                        </h5>
+
+                        <div id="search-videos">
+                            <form onSubmit={this.props.handleSubmit(this.onSearchVideos)} className="ui form error">
+                                <div className="form-group checkbox">
+                                    <Field name="title" component="input" type="checkbox"/>
+                                    <label className="ml-2">Title</label>
+                                </div>
+                                <div className="form-group checkbox">
+                                    <Field name="event" component="input"  type="checkbox"/>
+                                    <label className="ml-2">Event/League</label>
+                                </div>
+                                <div className="form-group">
+                                    <label>Date</label>
+                                    <Field component={this.renderDateTimePicker} name="date" />
+                                </div>
+                                <div className="form-group">
+                                    <label>
+                                        Search Terms/Keywords
+                                    </label>
+                                    <Field name="terms" component="input" type="text" placeholder="Enter search terms/keywords"/>
+                                </div>
+                                <div className="form-group">
+                                    <button type="submit" className="btn btn-primary">Search Videos</button>
+                                </div>
+                                <div className="form-group">
+                                    <button type="button" onClick={resetForm} className="btn btn-default">Show All Videos</button>
+                                </div>
+                            </form>
                         </div>
-                        <div className="form-group checkbox">
-                            <Field name="event" component="input"  type="checkbox"/>
-                            <label className="ml-2">Event/Country/City</label>
-                        </div>
-                        <div className="form-group">
-                            <label>Date</label>
-                            <Field component={this.renderDateTimePicker} name="date" />
-                        </div>
-                        <div className="form-group">
-                            <label>
-                                <i className="fas fa-asterisk"></i>
-                                Search Terms/Keywords
-                            </label>
-                            <Field name="terms" component="input" type="text" placeholder="Enter search terms/keywords"/>
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary">Search Videos</button>
-                        </div>
-                        <div className="form-group">
-                            <button type="button" onClick={resetForm} className="btn btn-default">Show All Videos</button>
-                        </div>
-                    </form>
-                </div>
 
             </div>
 

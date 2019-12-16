@@ -9,15 +9,15 @@ class App extends React.Component {
         return (
             <div className="container-fluid p-4">
                 <div className="row">
-                    <div className="col-lg-12 text-center p-4">
+                    <div className="col-lg-12 text-center mb-3">
                         <h1>Video Highlights from around The World</h1>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-2">
+                    <div className="col-lg-3 ">
                         <VideoSearch />
                     </div>
-                    <div className="col-lg-10">
+                    <div className="col-lg-9">
                         <VideoList />
                     </div>
                 </div>
