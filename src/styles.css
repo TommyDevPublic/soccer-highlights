@@ -1,177 +1,172 @@
 /* global */
 body {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 /* HEADER */
 header {
-    height: 60px;
-    background: #000;
-    border-bottom: 4px solid #1e90ff;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
+  height: 60px;
+  background: #000;
+  border-bottom: 4px solid #1e90ff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 header .logo {
-    background: url(images/neilsenlogo-580x358.png) no-repeat;
-    height:40px;
-    width: 40px;
-    background-size: 100%;
+  background: url(images/neilsenlogo-580x358.png) no-repeat;
+  height: 40px;
+  width: 40px;
+  background-size: 100%;
 }
 
 footer {
-    height: 4px;
-    background: #000;
-    border-top: 4px solid #1e90ff;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    color: #fff;
-    font-size: .75rem;
-    justify-content: center;
+  height: 4px;
+  background: #000;
+  border-top: 4px solid #1e90ff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 0.75rem;
+  justify-content: center;
 }
 
 /* VIDEO LIST */
 
-.video-list {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    display: flex;
+.video-list,
+.video-list > div {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  display: flex;
 }
 .video-item {
-    width: 300px;
-    height: 230px;
-    margin: 5px;
-    background: #000;
-    align-self: flex-end;
-
+  width: 300px;
+  height: 230px;
+  margin: 5px;
+  background: #000;
+  align-self: flex-end;
 }
 .video-item a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .video-item img {
-    width: 100%;
-    max-height: 160px;
+  width: 100%;
+  max-height: 160px;
 }
 
 .video-item figure {
-    margin: 0;
+  margin: 0;
 }
 
 .video-item .metadata {
-    color: #fff;
-    padding: 1rem;
-    align-self: flex-end;
-
+  color: #fff;
+  padding: 1rem;
+  align-self: flex-end;
 }
 
 .video-item .metadata-footer {
-    display: flex;
-    font-size: .75rem;
-    justify-content: space-between;
-
+  display: flex;
+  font-size: 0.75rem;
+  justify-content: space-between;
 }
 
 /* SEARCH */
 
-.video-search, .video-list {
-    background: #fff;
+.video-search,
+.video-list {
+  background: #fff;
 }
 .video-search .form-group {
-    flex-direction: column;
-    display: -webkit-flex; /* Safari */
-    -webkit-flex-wrap: wrap; /* Safari 6.1+ */
-    display: flex;
-    flex-wrap: wrap;
-
+  flex-direction: column;
+  display: -webkit-flex; /* Safari */
+  -webkit-flex-wrap: wrap; /* Safari 6.1+ */
+  display: flex;
+  flex-wrap: wrap;
 }
 .video-search .form-group.checkbox label {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 .video-search .form-group.checkbox {
-    flex-direction: row;
-    align-items: center;
+  flex-direction: row;
+  align-items: center;
 }
 .video-search .form-group:last-child {
-    margin-bottom: 0;
-    padding-top: 10px;
+  margin-bottom: 0;
+  padding-top: 10px;
 }
 .video-search .btn-default {
-    display: block;
-    border: 1px solid #dee2e6;
-    width: 100%;
+  display: block;
+  border: 1px solid #dee2e6;
+  width: 100%;
 }
 
 .video-search .btn-default:hover {
-    border-color: #1e90ff;
-    color: #1e90ff;
-
+  border-color: #1e90ff;
+  color: #1e90ff;
 }
 
 .video-search input[type="text"] {
-    border: 1px solid #dee2e6;
-    border-radius: .25rem;
-    padding: .5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
 }
 
 .video-search .rw-datetime-picker.rw-widget input {
-    border: none;
+  border: none;
 }
-
 
 /* Video Player */
 .video-player-wrapper {
-
-    width: 100%;
+  width: 100%;
 }
 
 .video-player {
-    width: 100%;
-    background: #FFF;
-    padding: 1rem;
+  width: 100%;
+  background: #fff;
+  padding: 1rem;
 }
 
 .video-player-wrapper ul.related-videos-list {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .video-player-wrapper ul.related-videos-list li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .video-player-wrapper .related-videos {
-    background: #FFF;
-    padding: 1rem;
+  background: #fff;
+  padding: 1rem;
 }
 
 .video-player-wrapper .related-videos h6 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* Modal Overrides */
 .modal {
-    display: block;
+  display: block;
 }
 .modal-body {
-    padding: 0;
+  padding: 0;
 }
 .modal-header {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .modal-content {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .modal-footer {
-    border-top: 0;
+  border-top: 0;
 }
 
 @media (min-width: 576px) {
-    .modal-dialog {
-        max-width: 980px;
-    }
+  .modal-dialog {
+    max-width: 980px;
+  }
 }
