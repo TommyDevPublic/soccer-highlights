@@ -66,5 +66,6 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ## TO DO'S
 1. Setup  CI
-2. Create 
+2. Create Test
+3. Add more commenting to code
 
